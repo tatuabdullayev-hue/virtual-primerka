@@ -7,10 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f6f3ee; --card:#ffffff; --ink:#1c1b19; --muted:#7c776f; --line:#e7e2d9;
-  --accent:#1c1b19; --accent-ink:#fff; --soft:#efebe4; --ok:#2f8f5b;
-}
+:root{--bg:#f6f3ee;--card:#fff;--ink:#1c1b19;--muted:#7c776f;--line:#e7e2d9;--soft:#efebe4;--ok:#2f8f5b}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0;height:100%}
@@ -20,30 +17,46 @@ header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:
 .brand b{display:block;font-size:15px}
 .brand span{color:var(--muted);font-size:12px;cursor:pointer}
 header .sp{flex:1}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:999px;font:500 13px Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:999px;font:500 13px Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{background:var(--soft)}
 .btn.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
 .btn.dark:hover{opacity:.9}
-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,1fr);gap:20px;padding:20px 22px;height:calc(100% - 63px)}
-.stage{position:relative;background:#e9e5de;border-radius:22px;overflow:hidden;min-height:420px}
-.stage canvas{width:100%;height:100%;display:block;object-fit:cover}
-.stage.photo canvas{object-fit:contain}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.big{padding:13px 20px;font-size:15px}
+main{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,1fr);gap:20px;padding:20px 22px;height:calc(100% - 63px)}
+.left{display:flex;flex-direction:column;gap:12px;min-height:0}
+.stage{position:relative;flex:1;background:#e9e5de;border-radius:22px;overflow:hidden;min-height:440px}
+.stage video,.stage .pic{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.stage video{object-fit:cover;transform:scaleX(-1)}
+.guide{position:absolute;top:50%;left:50%;height:88%;aspect-ratio:3/4;transform:translate(-50%,-50%);border:2px dashed rgba(255,255,255,.85);border-radius:18px;pointer-events:none;box-shadow:0 0 0 9999px rgba(0,0,0,.28)}
+.guide::after{content:"Beldan yuqori qismingiz ramkaga sig'sin";position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#fff;font-size:12px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.count{position:absolute;inset:0;display:grid;place-items:center;font:500 120px 'Playfair Display',serif;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.4);pointer-events:none}
 .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;background:linear-gradient(160deg,#efe9df,#e2dbcf)}
 .overlay h2{font:500 30px 'Playfair Display',serif;margin:0}
 .overlay h2 i{font-style:italic}
-.overlay p{color:var(--muted);max-width:380px;margin:0;line-height:1.5}
+.overlay p{color:var(--muted);max-width:400px;margin:0;line-height:1.5}
 .overlay .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.status{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);padding:7px 12px;border-radius:999px;font-size:12px;display:flex;gap:7px;align-items:center}
-.dot{width:8px;height:8px;border-radius:50%;background:#d9a400}
-.dot.ok{background:var(--ok)}
-.worn{position:absolute;left:14px;bottom:14px;display:flex;gap:8px;flex-wrap:wrap;max-width:60%}
-.chip{background:rgba(255,255,255,.92);border-radius:14px;padding:6px 8px 6px 6px;display:flex;align-items:center;gap:8px;font-size:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.chip canvas{width:30px;height:30px;border-radius:8px;background:var(--soft)}
-.chip button{border:0;background:none;cursor:pointer;color:var(--muted);font-size:15px}
-.tools{position:absolute;right:14px;bottom:14px;display:flex;gap:8px}
-.round{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.92);cursor:pointer;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.round:hover{background:#fff}
-.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+.steps{display:flex;gap:18px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:center}
+.steps b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;margin-right:5px}
+.loading{position:absolute;inset:0;background:rgba(246,243,238,.55);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}
+.spin{width:46px;height:46px;border:3px solid rgba(0,0,0,.12);border-top-color:var(--ink);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading b{font-size:15px}
+.loading span{color:var(--muted);font-size:13px;max-width:320px}
+.bar{width:220px;height:5px;background:rgba(0,0,0,.08);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .5s linear}
+.cmp{position:absolute;inset:0}
+.cmp .after{clip-path:inset(0 0 0 var(--x,50%))}
+.cmp .line{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.3);pointer-events:none}
+.cmp .line::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.tag{position:absolute;top:14px;background:rgba(255,255,255,.9);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;pointer-events:none}
+.bar-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar-actions .sp{flex:1}
+.sel{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 12px 8px 8px}
+.sel img{width:40px;height:48px;object-fit:contain;background:var(--soft);border-radius:8px}
+.sel .t{font-size:12px;color:var(--muted)}
+.sel b{font-size:13px}
 aside{background:var(--card);border-radius:22px;padding:20px;display:flex;flex-direction:column;min-height:0;border:1px solid var(--line)}
 aside h1{font:500 30px 'Playfair Display',serif;margin:2px 0 14px}
 aside h1 i{font-style:italic;color:#8a7f6e}
@@ -55,26 +68,24 @@ aside h1 i{font-style:italic;color:#8a7f6e}
 .card{border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative;background:#fff;transition:transform .12s,box-shadow .12s}
 .card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
 .card.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
-.card canvas{width:100%;aspect-ratio:1;border-radius:11px;background:var(--soft);display:block}
+.card img{width:100%;aspect-ratio:3/4;object-fit:contain;border-radius:11px;background:#f5f5f3;display:block}
 .card .nm{font-weight:600;margin:8px 2px 2px;font-size:13px}
-.card .pr{color:var(--muted);font-size:12px;margin:0 2px 6px}
+.card .pr{color:var(--muted);font-size:12px;margin:0 2px 4px}
 .badge{position:absolute;top:14px;left:14px;background:var(--ink);color:#fff;font-size:11px;padding:3px 8px;border-radius:999px;display:none}
 .card.on .badge{display:block}
-.del{position:absolute;top:12px;right:12px;border:0;background:rgba(255,255,255,.9);border-radius:50%;width:24px;height:24px;cursor:pointer}
-.sw{display:flex;gap:5px;margin:0 2px 2px}
-.sw span{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.15);cursor:pointer}
-.sw span.on{outline:2px solid var(--ink);outline-offset:1px}
-dialog{border:0;border-radius:20px;padding:22px;width:min(420px,92vw);background:var(--card);color:var(--ink)}
+.done{position:absolute;top:14px;right:14px;background:var(--ok);color:#fff;font-size:11px;padding:3px 7px;border-radius:999px}
+.del{position:absolute;bottom:52px;right:14px;border:0;background:rgba(255,255,255,.95);border-radius:50%;width:26px;height:26px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+dialog{border:0;border-radius:20px;padding:22px;width:min(440px,92vw);background:var(--card);color:var(--ink)}
 dialog::backdrop{background:rgba(20,18,15,.45)}
 dialog h3{margin:0 0 14px;font:500 22px 'Playfair Display',serif}
 label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}
 input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:14px Inter,sans-serif;background:#fff;color:var(--ink)}
 .hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
 .dlg-row{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:13px;max-width:90vw;z-index:9;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 @media (max-width:860px){
   main{grid-template-columns:1fr;height:auto;padding:12px 16px}
-  .stage{height:70vh;min-height:360px}
-  aside{max-height:none}
+  .stage{height:72vh;min-height:380px;flex:none}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   header{padding:12px 16px}
   header .hide-m{display:none}
@@ -86,31 +97,54 @@ input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-ra
   <div class="logo">VP</div>
   <div class="brand"><b id="storeName">Mening do'konim</b><span id="editStore">Virtual primerka · nomini o'zgartirish ✎</span></div>
   <div class="sp"></div>
+  <button class="btn hide-m" id="setBtn" title="Sozlamalar">⚙ Sozlamalar</button>
   <button class="btn hide-m" id="addBtn">＋ Mahsulot qo'shish</button>
 </header>
 
 <main>
-  <section class="stage" id="stage">
-    <canvas id="cv"></canvas>
-    <div class="status" id="status" hidden><span class="dot" id="dot"></span><span id="statusTxt">Model yuklanmoqda…</span></div>
-    <div class="worn" id="worn"></div>
-    <div class="tools" id="tools" hidden>
-      <button class="round" id="shotBtn" title="Surat olish">📸</button>
-      <button class="round" id="photoBtn2" title="Rasm yuklash">🖼️</button>
-      <button class="round" id="camBtn2" title="Kamera">🎥</button>
-    </div>
-    <div class="flash" id="flash"></div>
-    <div class="overlay" id="intro">
-      <h2>Kiyimni <i>kiyib ko'ring</i> — virtual</h2>
-      <p>Kamerani yoqing yoki to'liq bo'yli suratingizni yuklang. O'ngdagi kolleksiyadan kiyimni tanlang — u darhol ustingizda paydo bo'ladi.</p>
-      <div class="row">
-        <button class="btn dark" id="camBtn">🎥 Kamerani yoqish</button>
-        <button class="btn" id="photoBtn">🖼️ Rasm yuklash</button>
+  <section class="left">
+    <div class="stage" id="stage">
+      <video id="video" playsinline muted hidden></video>
+      <div class="guide" id="guide" hidden></div>
+      <div class="count" id="count" hidden></div>
+      <img class="pic" id="personImg" alt="" hidden>
+      <div class="cmp" id="cmp" hidden>
+        <img class="pic" id="beforeImg" alt="">
+        <img class="pic after" id="afterImg" alt="">
+        <div class="line"></div>
+        <span class="tag" style="left:14px">Oldin</span><span class="tag" style="right:14px">Keyin ✨</span>
+        <input type="range" id="slider" min="0" max="100" value="50" aria-label="Oldin / keyin">
       </div>
-      <p style="font-size:12px">Rasm va video qurilmangizdan chiqmaydi — hammasi brauzerda ishlaydi.</p>
+      <div class="loading" id="loading" hidden>
+        <div class="spin"></div>
+        <b id="loadT">Kiyim kiydirilmoqda…</b>
+        <div class="bar"><i id="loadBar"></i></div>
+        <span id="loadS">AI kiyimni tanangizga moslab chizmoqda. Odatda 20–40 soniya.</span>
+      </div>
+      <div class="overlay" id="intro">
+        <h2>Kiyimni <i>kiyib ko'ring</i> — virtual</h2>
+        <div class="steps"><span><b>1</b>Suratga tushing</span><span><b>2</b>Kiyim tanlang</span><span><b>3</b>Natijani ko'ring</span></div>
+        <p>Sun'iy intellekt tanlangan kiyimni xuddi haqiqatda kiyib turgandek suratingizga kiydiradi — burmalar, soyalar va o'lcham bilan.</p>
+        <div class="row">
+          <button class="btn dark big" id="camBtn">📷 Kamerada suratga tushish</button>
+          <button class="btn big" id="photoBtn">🖼️ Rasm yuklash</button>
+        </div>
+        <p style="font-size:12px">Eng yaxshi natija: oldga qarab, beldan yuqori qism ko'rinadigan, yorug' joyda tushilgan surat.</p>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" hidden>
     </div>
-    <input type="file" id="photoInput" accept="image/*" hidden>
-    <video id="video" playsinline muted hidden></video>
+    <div class="bar-actions" id="actions" hidden>
+      <div class="sel" id="selBox"><img id="selImg" alt=""><div><div class="t">Tanlangan kiyim</div><b id="selName">Kiyim tanlanmagan</b></div></div>
+      <div class="sp"></div>
+      <button class="btn" id="retakeBtn">↺ Qayta suratga tushish</button>
+      <button class="btn" id="saveBtn" hidden>⬇ Saqlash</button>
+      <button class="btn dark big" id="tryBtn" disabled>✨ Kiyib ko'rish</button>
+    </div>
+    <div class="bar-actions" id="camActions" hidden>
+      <div class="sp"></div>
+      <button class="btn" id="camCancel">Bekor qilish</button>
+      <button class="btn dark big" id="snapBtn">📸 Suratga olish (3 s)</button>
+    </div>
   </section>
 
   <aside>
@@ -118,447 +152,276 @@ input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-ra
     <h1>Kiyib ko'rish <i>kolleksiyasi</i></h1>
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
-    <button class="btn" id="addBtn2" style="margin-top:14px;justify-content:center">＋ O'z mahsulotingizni qo'shing (PNG)</button>
+    <button class="btn" id="addBtn2" style="margin-top:14px">＋ O'z mahsulotingizni qo'shing</button>
   </aside>
 </main>
 
 <dialog id="dlg">
   <form method="dialog" id="addForm">
     <h3>Yangi mahsulot</h3>
-    <label>Nomi</label><input id="fName" required placeholder="Masalan: Qora kurtka">
-    <label>Narxi (so'm)</label><input id="fPrice" type="number" min="0" placeholder="450000">
+    <label>Nomi</label><input id="fName" required placeholder="Masalan: Qora futbolka">
+    <label>Narxi (so'm)</label><input id="fPrice" type="number" min="0" placeholder="250000">
     <label>Turi</label>
     <select id="fCat">
-      <option value="top">Ustki kiyim (kurtka, ko'ylak, futbolka)</option>
-      <option value="head">Bosh kiyim</option>
-      <option value="glasses">Ko'zoynak</option>
+      <option value="upper_body">Ustki kiyim (futbolka, ko'ylak, bluzka, kurtka)</option>
+      <option value="lower_body">Pastki kiyim (shim, yubka)</option>
+      <option value="dresses">Ko'ylak-plate (to'liq)</option>
     </select>
-    <label>Rasm (foni shaffof PNG)</label><input id="fImg" type="file" accept="image/png,image/webp" required>
-    <div class="hint">Ustki kiyim uchun: kiyim old tomondan, yelkalari rasm tepasidan ~12% pastda, eni bo'ylab ~18%–82% oralig'ida, etagi pastki chetida bo'lsin. Fonni olib tashlash uchun remove.bg kabi xizmatlardan foydalaning.</div>
+    <label>Qisqa tavsif (inglizcha bo'lsa yaxshi)</label><input id="fDesc" placeholder="black cotton t-shirt">
+    <label>Kiyim surati</label><input id="fImg" type="file" accept="image/*" required>
+    <div class="hint">Kiyimni oq yoki och fonda, old tomondan, butunligicha suratga oling (tekis yoyilgan yoki manekendagi). Odam kiyib turgan surat emas — faqat kiyimning o'zi.</div>
     <div class="dlg-row">
       <button class="btn" value="cancel" formnovalidate>Bekor qilish</button>
-      <button class="btn dark" id="saveBtn" value="ok">Saqlash</button>
+      <button class="btn dark" value="ok">Saqlash</button>
     </div>
   </form>
 </dialog>
 
-<script type="module">
-import { PoseLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+<dialog id="setDlg">
+  <form method="dialog" id="setForm">
+    <h3>Sozlamalar</h3>
+    <label>Hugging Face token (ixtiyoriy)</label>
+    <input id="sToken" placeholder="hf_..." autocomplete="off">
+    <div class="hint">AI bepul xizmatda ishlaydi va tokensiz kuniga cheklangan miqdorda surat chiqaradi. huggingface.co saytida bepul ro'yxatdan o'tib, Settings → Access Tokens bo'limidan "Read" token oling va shu yerga qo'ying — limit oshadi. Token faqat shu qurilmada saqlanadi.</div>
+    <div class="dlg-row">
+      <button class="btn" value="cancel" formnovalidate>Yopish</button>
+      <button class="btn dark" value="ok">Saqlash</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" hidden></div>
 
-/* ---------- helpers ---------- */
-const $ = id => document.getElementById(id);
-const V = {
-  add:(a,b)=>({x:a.x+b.x,y:a.y+b.y}), sub:(a,b)=>({x:a.x-b.x,y:a.y-b.y}),
-  mul:(a,k)=>({x:a.x*k,y:a.y*k}), mid:(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2}),
-  lerp:(a,b,t)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t}),
+<script type="module">
+import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@1.15.0/dist/index.js";
+
+// Ba'zi brauzerlar (Safari, inkognito, ichki brauzerlar) uchinchi tomon cookie'larini bloklaydi —
+// HF Space'larga so'rovlarni cookie'siz yuboramiz, aks holda "Failed to fetch" chiqadi.
+const _fetch=window.fetch.bind(window);
+window.fetch=(i,init)=>{
+  const u=String(i&&i.url||i);
+  if(/\.hf\.space|huggingface\.co/.test(u)){
+    if(i instanceof Request&&i.credentials==='include') i=new Request(i,{credentials:'omit'});
+    init={...(init||{}),credentials:'omit'};
+  }
+  return _fetch(i,init);
 };
-const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-const norm=a=>{const l=Math.hypot(a.x,a.y)||1;return {x:a.x/l,y:a.y/l}};
-const dot=(a,b)=>a.x*b.x+a.y*b.y;
-const store = {
+const _ES=window.EventSource;
+if(_ES) window.EventSource=function(u,o){return new _ES(u,/\.hf\.space/.test(String(u))?{...(o||{}),withCredentials:false}:o);};
+const $=id=>document.getElementById(id);
+const store={
   get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}}
 };
-function shade(hex,amt){ // amt -1..1
-  let c=hex.replace('#',''); if(c.length===3)c=c.split('').map(x=>x+x).join('');
-  const n=parseInt(c,16); let r=n>>16,g=(n>>8)&255,b=n&255;
-  const f=v=>Math.round(amt<0?v*(1+amt):v+(255-v)*amt);
-  return `rgb(${f(r)},${f(g)},${f(b)})`;
-}
-const fmt=n=>n?Number(n).toLocaleString('ru-RU').replace(/,/g,' ')+" so'm":'';
+const fmt=n=>n?Number(n).toLocaleString('ru-RU').replace(/[\s,]/g,' ')+" so'm":'';
+function toast(t,ms=4500){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,ms);}
 
-/* ---------- products ---------- */
+/* ---------- catalog ---------- */
 const BUILTIN=[
-  {id:'hoodie', name:'Oversize hudi',   cat:'top',    price:349000, type:'hoodie',  colors:['#f2b705','#2b2b2b','#e9e4da','#7a8f6a']},
-  {id:'blazer', name:'Klassik pidjak',  cat:'top',    price:890000, type:'blazer',  colors:['#1f2d4d','#2b2b2b','#6b5a48','#8c8c8c']},
-  {id:'tshirt', name:'Paxta futbolka',  cat:'top',    price:129000, type:'tshirt',  colors:['#f4f4f2','#151515','#b8322a','#3b6ea5']},
-  {id:'sweater',name:'Trikotaj sviter', cat:'top',    price:299000, type:'sweater', colors:['#c9b79c','#7b2d26','#2f4a3a','#d8d2c8']},
-  {id:'beanie', name:'Qishki shapka',   cat:'head',   price:89000,  type:'beanie',  colors:['#2c5d9e','#b8322a','#222222','#e9e4da']},
-  {id:'cap',    name:'Beysbolka',       cat:'head',   price:119000, type:'cap',     colors:['#151515','#f4f4f2','#2b4a2f','#b5651d']},
-  {id:'glasses',name:"Quyosh ko'zoynagi",cat:'glasses',price:159000,type:'sunglasses',colors:['#151515','#5a3a1a','#c9a227']},
-];
-let custom = store.get('vp_custom',[]);
-const imgCache = {};
-function imgOf(p){ if(!imgCache[p.id]){const im=new Image(); im.onload=()=>renderGrid(); im.src=p.img; imgCache[p.id]=im;} return imgCache[p.id]; }
-const allProducts=()=>[...BUILTIN,...custom];
-const CATS=[['all','Hammasi'],['top','Ustki kiyim'],['head','Bosh kiyim'],['glasses','Aksessuarlar']];
-let curCat='all';
-let colorSel = store.get('vp_colors',{});
-let worn = {}; // cat -> product id
+  {id:'futbolka-qizil', name:'Oversize futbolka', price:149000, cat:'upper_body', desc:'red oversized cotton t-shirt with side tie'},
+  {id:'polo',           name:'Polo ko\'ylak',     price:189000, cat:'upper_body', desc:'navy and light blue polo shirt'},
+  {id:'bluzka-baxmal',  name:'Baxmal bluzka',     price:259000, cat:'upper_body', desc:'blue velvet wrap blouse'},
+  {id:'bluzka-pushti',  name:'Pushti bluzka',     price:219000, cat:'upper_body', desc:'pink long sleeve henley blouse'},
+  {id:'bluzka-naqshli', name:'Naqshli bluzka',    price:239000, cat:'upper_body', desc:'teal printed chain pattern blouse'},
+  {id:'bluzka-shifon',  name:'Shifon bluzka',     price:279000, cat:'upper_body', desc:'peach chiffon long sleeve blouse'},
+  {id:'futbolka-dantel',name:'Dantelli futbolka', price:169000, cat:'upper_body', desc:'royal blue t-shirt with lace sleeves'},
+  {id:'mayka-leopard',  name:'Leopard mayka',     price:129000, cat:'upper_body', desc:'sleeveless leopard print top'},
+  {id:'mayka-tugmali',  name:'Tugmali mayka',     price:119000, cat:'upper_body', desc:'white ribbed tank top with gold buttons'},
+].map(p=>({...p,img:`cloth/${p.id}.jpg`}));
+let custom=store.get('vp2_custom',[]);
+const all=()=>[...custom,...BUILTIN];
+const CATS=[['all','Hammasi'],['upper_body','Ustki kiyim'],['lower_body','Shim / yubka'],['dresses','Ko\'ylak-plate']];
+let curCat='all', selId=null;
 
-/* ---------- garment drawing ---------- */
-function bodyFrame(P){
-  const sw=dist(P.ls,P.rs), u=norm(V.sub(P.ls,P.rs)), midS=V.mid(P.ls,P.rs);
-  let perp={x:-u.y,y:u.x};
-  if(dot(perp,V.sub(P.nose,midS))>0) perp=V.mul(perp,-1);
-  let lh=P.lh, rh=P.rh;
-  if(!P.hipsOk){
-    const c=V.add(midS,V.mul(perp,sw*1.5));
-    lh=V.add(c,V.mul(u,sw*0.33)); rh=V.add(c,V.mul(u,-sw*0.33));
-  }
-  const midH=V.mid(lh,rh), down=norm(V.sub(midH,midS)), tl=dist(midS,midH);
-  return {sw,u,midS,midH,down,tl,lh,rh};
-}
-function withFrame(ctx,o,u,d,fn){ctx.save();ctx.transform(u.x,u.y,d.x,d.y,o.x,o.y);fn();ctx.restore();}
-function poly(ctx,pts){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();}
+/* ---------- state ---------- */
+let person=null;           // {blob,url,key}
+const results={};          // `${person.key}|${garmentId}` -> url
+let busy=false;
 
-function drawTorso(ctx,P,F,o,color){
-  const {sw,u,down,tl,midS}=F;
-  const at=(b,du,dd)=>V.add(V.add(b,V.mul(u,du)),V.mul(down,dd));
-  const sL=at(P.ls, sw*o.sh,-tl*0.03), sR=at(P.rs,-sw*o.sh,-tl*0.03);
-  const aL=at(P.ls, sw*o.sh*0.85,tl*0.32), aR=at(P.rs,-sw*o.sh*0.85,tl*0.32);
-  const hL=at(F.lh, sw*o.hip,0), hR=at(F.rh,-sw*o.hip,0);
-  const eL=at(F.lh, sw*o.hip*1.03,tl*o.hem), eR=at(F.rh,-sw*o.hip*1.03,tl*o.hem);
-  const nL=at(midS, sw*o.neckW,-tl*0.07), nR=at(midS,-sw*o.neckW,-tl*0.07);
-  const nC=at(midS,0,tl*o.neckD);
-  const sc1=at(P.ls,sw*0.02,-tl*0.09), sc2=at(P.rs,-sw*0.02,-tl*0.09);
-  const hemC=at(F.midH,0,tl*(o.hem+0.03));
-  ctx.beginPath();
-  ctx.moveTo(nL.x,nL.y); ctx.quadraticCurveTo(sc1.x,sc1.y,sL.x,sL.y);
-  ctx.lineTo(aL.x,aL.y); ctx.lineTo(hL.x,hL.y); ctx.lineTo(eL.x,eL.y);
-  ctx.quadraticCurveTo(hemC.x,hemC.y,eR.x,eR.y);
-  ctx.lineTo(hR.x,hR.y); ctx.lineTo(aR.x,aR.y); ctx.lineTo(sR.x,sR.y);
-  ctx.quadraticCurveTo(sc2.x,sc2.y,nR.x,nR.y);
-  ctx.quadraticCurveTo(nC.x,nC.y,nL.x,nL.y);
-  ctx.closePath();
-  ctx.fillStyle=color; ctx.fill();
-  ctx.save(); ctx.clip();
-  const g=ctx.createLinearGradient(sR.x,sR.y,sL.x,sL.y);
-  g.addColorStop(0,'rgba(0,0,0,.28)');g.addColorStop(.18,'rgba(0,0,0,.05)');
-  g.addColorStop(.5,'rgba(255,255,255,.08)');g.addColorStop(.82,'rgba(0,0,0,.05)');g.addColorStop(1,'rgba(0,0,0,.28)');
-  ctx.fillStyle=g; ctx.fillRect(-1e4,-1e4,2e4,2e4);
-  // folds
-  ctx.strokeStyle='rgba(0,0,0,.08)'; ctx.lineWidth=sw*0.02; ctx.lineCap='round';
-  for(const k of [-0.18,0.2]){const a=at(midS,sw*k,tl*0.45), b=at(F.midH,sw*k*1.2,tl*o.hem*0.9);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
-  ctx.restore();
-  ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.lineWidth=Math.max(1,sw*0.008); ctx.stroke();
-  return {nL,nR,nC,eL,eR};
-}
-function drawSleeves(ctx,P,F,color,w,len){
-  const {sw,u,down,tl}=F;
-  for(const side of [1,-1]){
-    const sh = side>0?P.ls:P.rs, el=side>0?P.le:P.re, wr=side>0?P.lw:P.rw;
-    const s=V.add(V.add(sh,V.mul(u,side*sw*0.04)),V.mul(down,tl*0.06));
-    const pts=[s];
-    if(len==='short') pts.push(V.lerp(sh,el,0.55)); else pts.push(el, V.lerp(el,wr,0.92));
-    const path=()=>{ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i].x,pts[i].y);};
-    ctx.lineCap='round'; ctx.lineJoin='round';
-    path(); ctx.strokeStyle='rgba(0,0,0,.25)'; ctx.lineWidth=sw*w+2; ctx.stroke();
-    path(); ctx.strokeStyle=color; ctx.lineWidth=sw*w; ctx.stroke();
-    path(); ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=sw*w*0.35; ctx.stroke();
-    if(len!=='short'){ // cuff
-      const e=pts[pts.length-1], d=norm(V.sub(e,pts[pts.length-2]));
-      const c0=V.sub(e,V.mul(d,sw*0.08));
-      ctx.beginPath();ctx.moveTo(c0.x,c0.y);ctx.lineTo(e.x,e.y);ctx.strokeStyle=shade(color,-0.18);ctx.lineWidth=sw*w*0.92;ctx.lineCap='butt';ctx.stroke();
-    }
-  }
-}
-const GARMENTS={
-  tshirt(ctx,P,F,c){
-    drawSleeves(ctx,P,F,c,0.30,'short');
-    drawTorso(ctx,P,F,{sh:0.1,hip:0.32,hem:0.1,neckW:0.15,neckD:0.07},c);
-    withFrame(ctx,F.midS,F.u,F.down,()=>{ // collar rib
-      ctx.beginPath();ctx.ellipse(0,-F.tl*0.04,F.sw*0.155,F.tl*0.1,0,0.05*Math.PI,0.95*Math.PI);
-      ctx.strokeStyle=shade(c,-0.15);ctx.lineWidth=F.sw*0.025;ctx.stroke();
-    });
-  },
-  sweater(ctx,P,F,c){
-    drawSleeves(ctx,P,F,c,0.32,'long');
-    drawTorso(ctx,P,F,{sh:0.1,hip:0.32,hem:0.12,neckW:0.14,neckD:0.05},c);
-    withFrame(ctx,F.midS,F.u,F.down,()=>{
-      const {sw,tl}=F;
-      ctx.strokeStyle='rgba(0,0,0,.09)';ctx.lineWidth=sw*0.012;
-      for(let x=-0.42;x<=0.42;x+=0.07){ctx.beginPath();ctx.moveTo(sw*x,tl*0.15);ctx.lineTo(sw*x*1.05,tl*1.05);ctx.stroke();}
-      ctx.beginPath();ctx.ellipse(0,-tl*0.05,sw*0.145,tl*0.09,0,0.02*Math.PI,0.98*Math.PI);
-      ctx.strokeStyle=shade(c,-0.2);ctx.lineWidth=sw*0.045;ctx.stroke();
-      ctx.fillStyle=shade(c,-0.12);ctx.fillRect(-sw*0.6,tl*1.0,sw*1.2,tl*0.1);
-    });
-  },
-  hoodie(ctx,P,F,c){
-    const {sw,tl}=F;
-    withFrame(ctx,F.midS,F.u,F.down,()=>{ // hood behind neck
-      ctx.beginPath();ctx.ellipse(0,-tl*0.06,sw*0.3,tl*0.13,0,0,Math.PI*2);ctx.fillStyle=shade(c,-0.25);ctx.fill();
-    });
-    drawSleeves(ctx,P,F,c,0.34,'long');
-    drawTorso(ctx,P,F,{sh:0.13,hip:0.36,hem:0.14,neckW:0.16,neckD:0.06},c);
-    withFrame(ctx,F.midS,F.u,F.down,()=>{
-      ctx.beginPath();ctx.ellipse(0,-tl*0.04,sw*0.2,tl*0.1,0,0.02*Math.PI,0.98*Math.PI);
-      ctx.strokeStyle=shade(c,-0.3);ctx.lineWidth=sw*0.05;ctx.stroke();
-      ctx.strokeStyle='#eee';ctx.lineWidth=sw*0.016;ctx.lineCap='round';
-      for(const x of [-0.07,0.07]){ctx.beginPath();ctx.moveTo(sw*x,tl*0.06);ctx.lineTo(sw*x*1.1,tl*0.38);ctx.stroke();}
-      const y0=tl*0.66,y1=tl*0.98;
-      poly(ctx,[[-sw*0.27,y0],[sw*0.27,y0],[sw*0.36,y1],[-sw*0.36,y1]]);
-      ctx.fillStyle=shade(c,-0.06);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=sw*0.01;ctx.stroke();
-      ctx.fillStyle=shade(c,-0.14);ctx.fillRect(-sw*0.62,tl*1.03,sw*1.24,tl*0.11);
-    });
-  },
-  blazer(ctx,P,F,c){
-    const {sw,tl}=F;
-    drawSleeves(ctx,P,F,c,0.29,'long');
-    drawTorso(ctx,P,F,{sh:0.12,hip:0.34,hem:0.24,neckW:0.17,neckD:0.02},c);
-    withFrame(ctx,F.midS,F.u,F.down,()=>{
-      poly(ctx,[[-sw*0.17,-tl*0.07],[sw*0.17,-tl*0.07],[0,tl*0.55]]);ctx.fillStyle='#f5f5f2';ctx.fill();
-      poly(ctx,[[-sw*0.035,tl*0.0],[sw*0.035,tl*0.0],[sw*0.055,tl*0.42],[0,tl*0.5],[-sw*0.055,tl*0.42]]);ctx.fillStyle='#7a1f2b';ctx.fill();
-      poly(ctx,[[-sw*0.045,-tl*0.06],[sw*0.045,-tl*0.06],[sw*0.03,tl*0.02],[-sw*0.03,tl*0.02]]);ctx.fillStyle='#5e1520';ctx.fill();
-      const lap=shade(c,-0.22);
-      for(const s of [1,-1]){
-        poly(ctx,[[s*sw*0.17,-tl*0.07],[s*sw*0.27,tl*0.06],[s*sw*0.21,tl*0.18],[s*sw*0.28,tl*0.23],[s*sw*0.02,tl*0.6],[0,tl*0.56]]);
-        ctx.fillStyle=lap;ctx.fill();ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=sw*0.008;ctx.stroke();
-        ctx.beginPath();ctx.moveTo(s*sw*0.17,tl*0.86);ctx.lineTo(s*sw*0.37,tl*0.86);ctx.strokeStyle='rgba(0,0,0,.3)';ctx.lineWidth=sw*0.012;ctx.stroke();
-      }
-      ctx.beginPath();ctx.moveTo(0,tl*0.56);ctx.lineTo(sw*0.02,tl*1.24);ctx.strokeStyle='rgba(0,0,0,.3)';ctx.lineWidth=sw*0.01;ctx.stroke();
-      ctx.fillStyle=shade(c,-0.45);
-      for(const y of [0.7,0.9]){ctx.beginPath();ctx.arc(sw*0.04,tl*y,sw*0.022,0,Math.PI*2);ctx.fill();}
-    });
-  },
-};
-function headFrame(P){
-  const hw=Math.max(dist(P.lear,P.rear), dist(P.ls,P.rs)*0.45), u=norm(V.sub(P.lear,P.rear)), c=V.mid(P.lear,P.rear);
-  let d={x:-u.y,y:u.x}; if(dot(d,V.sub(V.mid(P.ls,P.rs),c))<0) d=V.mul(d,-1);
-  return {hw,u,c,d};
-}
-const HEADWEAR={
-  beanie(ctx,P,c){
-    const H=headFrame(P), w=H.hw;
-    withFrame(ctx,H.c,H.u,H.d,()=>{
-      ctx.beginPath();ctx.moveTo(-w*0.6,-w*0.5);ctx.bezierCurveTo(-w*0.62,-w*1.3,w*0.62,-w*1.3,w*0.6,-w*0.5);ctx.closePath();
-      ctx.fillStyle=c;ctx.fill();
-      ctx.save();ctx.clip();ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=w*0.03;
-      for(let x=-0.5;x<=0.5;x+=0.1){ctx.beginPath();ctx.moveTo(w*x,-w*0.5);ctx.lineTo(w*x*0.5,-w*1.2);ctx.stroke();}
-      const g=ctx.createLinearGradient(-w*.6,0,w*.6,0);g.addColorStop(0,'rgba(0,0,0,.25)');g.addColorStop(.5,'rgba(255,255,255,.1)');g.addColorStop(1,'rgba(0,0,0,.25)');
-      ctx.fillStyle=g;ctx.fillRect(-w,-w*2,w*2,w*2);ctx.restore();
-      ctx.beginPath();ctx.roundRect(-w*0.64,-w*0.62,w*1.28,w*0.32,w*0.08);ctx.fillStyle=shade(c,-0.15);ctx.fill();
-      ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=w*0.02;
-      for(let x=-0.58;x<=0.58;x+=0.06){ctx.beginPath();ctx.moveTo(w*x,-w*0.6);ctx.lineTo(w*x,-w*0.32);ctx.stroke();}
-      ctx.beginPath();ctx.arc(0,-w*1.17,w*0.15,0,Math.PI*2);ctx.fillStyle=shade(c,0.25);ctx.fill();
-    });
-  },
-  cap(ctx,P,c){
-    const H=headFrame(P), w=H.hw;
-    withFrame(ctx,H.c,H.u,H.d,()=>{
-      ctx.beginPath();ctx.moveTo(-w*0.6,-w*0.45);ctx.bezierCurveTo(-w*0.6,-w*1.22,w*0.6,-w*1.22,w*0.6,-w*0.45);ctx.closePath();
-      ctx.fillStyle=c;ctx.fill();
-      ctx.save();ctx.clip();
-      const g=ctx.createLinearGradient(-w*.6,0,w*.6,0);g.addColorStop(0,'rgba(0,0,0,.25)');g.addColorStop(.5,'rgba(255,255,255,.12)');g.addColorStop(1,'rgba(0,0,0,.25)');
-      ctx.fillStyle=g;ctx.fillRect(-w,-w*2,w*2,w*2);
-      ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=w*0.015;
-      for(const x of [-0.25,0.25]){ctx.beginPath();ctx.moveTo(w*x,-w*0.45);ctx.quadraticCurveTo(w*x*0.6,-w*0.95,0,-w*1.03);ctx.stroke();}
-      ctx.restore();
-      ctx.beginPath();ctx.ellipse(0,-w*0.44,w*0.62,w*0.2,0,0,Math.PI);ctx.fillStyle=shade(c,-0.2);ctx.fill();
-      ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=w*0.015;ctx.stroke();
-      ctx.beginPath();ctx.arc(0,-w*1.03,w*0.05,0,Math.PI*2);ctx.fillStyle=shade(c,-0.3);ctx.fill();
-    });
-  },
-};
-const GLASSES={
-  sunglasses(ctx,P,c){
-    const ed=dist(P.leye,P.reye), u=norm(V.sub(P.leye,P.reye)), o=V.mid(P.leye,P.reye);
-    let d={x:-u.y,y:u.x}; if(dot(d,V.sub(P.nose,o))<0) d=V.mul(d,-1);
-    withFrame(ctx,o,u,d,()=>{
-      for(const s of [1,-1]){
-        ctx.beginPath();ctx.roundRect(s*ed*0.5-ed*0.4,-ed*0.24,ed*0.8,ed*0.56,ed*0.2);
-        const g=ctx.createLinearGradient(0,-ed*0.3,0,ed*0.3);g.addColorStop(0,'rgba(20,20,25,.92)');g.addColorStop(1,'rgba(60,60,70,.85)');
-        ctx.fillStyle=g;ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=ed*0.08;ctx.stroke();
-        ctx.beginPath();ctx.moveTo(s*ed*0.5-ed*0.22,-ed*0.12);ctx.lineTo(s*ed*0.5-ed*0.05,-ed*0.18);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=ed*0.04;ctx.stroke();
-        ctx.beginPath();ctx.moveTo(s*ed*0.9,-ed*0.16);ctx.lineTo(s*ed*1.12,-ed*0.12);ctx.strokeStyle=c;ctx.lineWidth=ed*0.07;ctx.stroke();
-      }
-      ctx.beginPath();ctx.moveTo(-ed*0.12,-ed*0.12);ctx.quadraticCurveTo(0,-ed*0.24,ed*0.12,-ed*0.12);ctx.strokeStyle=c;ctx.lineWidth=ed*0.07;ctx.stroke();
-    });
-  }
-};
-function drawCustom(ctx,P,p){
-  const im=imgOf(p); if(!im.complete||!im.naturalWidth) return;
-  const iw=im.naturalWidth, ih=im.naturalHeight;
-  if(p.cat==='top'){
-    const F=bodyFrame(P);
-    withFrame(ctx,F.midS,F.u,F.down,()=>{
-      const W=F.sw/0.64, Hh=(F.tl*1.12)/0.8;
-      ctx.drawImage(im,-W/2,-Hh*0.12,W,Hh);
-    });
-  } else if(p.cat==='head'){
-    const H=headFrame(P), W=H.hw*1.45, Hh=W*ih/iw;
-    withFrame(ctx,H.c,H.u,H.d,()=>ctx.drawImage(im,-W/2,-H.hw*0.35-Hh,W,Hh));
-  } else {
-    const ed=dist(P.leye,P.reye), u=norm(V.sub(P.leye,P.reye)), o=V.mid(P.leye,P.reye);
-    let d={x:-u.y,y:u.x}; if(dot(d,V.sub(P.nose,o))<0) d=V.mul(d,-1);
-    const W=ed*2.5, Hh=W*ih/iw;
-    withFrame(ctx,o,u,d,()=>ctx.drawImage(im,-W/2,-Hh/2,W,Hh));
-  }
-}
-function drawItem(ctx,P,p,color){
-  if(p.img) return drawCustom(ctx,P,p);
-  if(p.cat==='top') return GARMENTS[p.type](ctx,P,bodyFrame(P),color);
-  if(p.cat==='head') return HEADWEAR[p.type](ctx,P,color);
-  return GLASSES[p.type](ctx,P,color);
-}
-function drawWorn(ctx,P){
-  for(const cat of ['top','glasses','head']){
-    const id=worn[cat]; if(!id) continue;
-    const p=allProducts().find(x=>x.id===id); if(!p) continue;
-    ctx.save(); drawItem(ctx,P,p,colorOf(p)); ctx.restore();
-  }
-}
-const colorOf=p=>colorSel[p.id]||(p.colors?p.colors[0]:null);
-
-/* ---------- thumbnails ---------- */
-const pt=(x,y)=>({x,y});
-const THUMB={
-  top:{ls:pt(138,62),rs:pt(62,62),le:pt(156,112),re:pt(44,112),lw:pt(160,158),rw:pt(40,158),lh:pt(124,160),rh:pt(76,160),hipsOk:true,nose:pt(100,30),lear:pt(116,28),rear:pt(84,28),leye:pt(108,24),reye:pt(92,24)},
-  head:{lear:pt(146,118),rear:pt(54,118),leye:pt(120,112),reye:pt(80,112),nose:pt(100,135),ls:pt(180,220),rs:pt(20,220)},
-  glasses:{leye:pt(132,100),reye:pt(68,100),nose:pt(100,125),lear:pt(178,104),rear:pt(22,104),ls:pt(180,220),rs:pt(20,220)},
-};
-function drawThumb(cv,p,color){
-  const ctx=cv.getContext('2d'); cv.width=200; cv.height=200;
-  ctx.clearRect(0,0,200,200);
-  ctx.fillStyle='#e3ddd3';
-  if(p.cat==='top'){ctx.beginPath();ctx.arc(100,26,18,0,7);ctx.fill();ctx.fillRect(92,36,16,24);}
-  else if(p.cat==='head'){ctx.beginPath();ctx.ellipse(100,125,48,60,0,0,7);ctx.fill();}
-  else {ctx.beginPath();ctx.ellipse(100,120,88,95,0,0,7);ctx.fill();}
-  if(p.img){
-    const im=imgOf(p); if(im.complete&&im.naturalWidth){ctx.clearRect(0,0,200,200);const s=Math.min(180/im.naturalWidth,180/im.naturalHeight);ctx.drawImage(im,100-im.naturalWidth*s/2,100-im.naturalHeight*s/2,im.naturalWidth*s,im.naturalHeight*s);}
-    return;
-  }
-  ctx.save(); drawItem(ctx,THUMB[p.cat],p,color); ctx.restore();
-}
-
-/* ---------- UI ---------- */
 function renderTabs(){
   $('tabs').innerHTML='';
   for(const [k,l] of CATS){const b=document.createElement('button');b.className='tab'+(k===curCat?' on':'');b.textContent=l;b.onclick=()=>{curCat=k;renderTabs();renderGrid();};$('tabs').appendChild(b);}
 }
 function renderGrid(){
-  const g=$('grid'); g.innerHTML='';
-  for(const p of allProducts().filter(p=>curCat==='all'||p.cat===curCat)){
-    const on=worn[p.cat]===p.id;
-    const d=document.createElement('div'); d.className='card'+(on?' on':'');
-    d.innerHTML=`<span class="badge">✓ Kiyilgan</span><canvas></canvas><div class="nm"></div><div class="pr">${fmt(p.price)}</div>`;
-    d.querySelector('.nm').textContent=p.name;
-    drawThumb(d.querySelector('canvas'),p,colorOf(p));
-    if(p.colors){
-      const sw=document.createElement('div');sw.className='sw';
-      for(const c of p.colors){const s=document.createElement('span');s.style.background=c;if(c===colorOf(p))s.className='on';
-        s.onclick=e=>{e.stopPropagation();colorSel[p.id]=c;store.set('vp_colors',colorSel);worn[p.cat]=p.id;renderGrid();renderWorn();};sw.appendChild(s);}
-      d.appendChild(sw);
-    }
-    if(p.img){const x=document.createElement('button');x.className='del';x.textContent='✕';x.title="O'chirish";
-      x.onclick=e=>{e.stopPropagation();if(!confirm(`"${p.name}" o'chirilsinmi?`))return;custom=custom.filter(c=>c.id!==p.id);store.set('vp_custom',custom);if(worn[p.cat]===p.id)delete worn[p.cat];renderGrid();renderWorn();};d.appendChild(x);}
-    d.onclick=()=>{ if(worn[p.cat]===p.id) delete worn[p.cat]; else worn[p.cat]=p.id; renderGrid(); renderWorn(); };
+  const g=$('grid');g.innerHTML='';
+  const list=all().filter(p=>curCat==='all'||p.cat===curCat);
+  if(!list.length){g.innerHTML=`<div style="color:var(--muted);grid-column:1/-1;padding:20px 4px">Bu bo'limda hali mahsulot yo'q. "＋ O'z mahsulotingizni qo'shing" tugmasi orqali qo'shing.</div>`;return;}
+  for(const p of list){
+    const d=document.createElement('div');d.className='card'+(p.id===selId?' on':'');
+    d.innerHTML=`<span class="badge">✓ Tanlangan</span><img alt="" loading="lazy"><div class="nm"></div><div class="pr">${fmt(p.price)}</div>`;
+    d.querySelector('img').src=p.img; d.querySelector('.nm').textContent=p.name;
+    if(person&&results[person.key+'|'+p.id]){const s=document.createElement('span');s.className='done';s.textContent='✓ tayyor';d.appendChild(s);}
+    if(p.custom){const x=document.createElement('button');x.className='del';x.textContent='✕';x.title="O'chirish";
+      x.onclick=e=>{e.stopPropagation();if(!confirm(`"${p.name}" o'chirilsinmi?`))return;custom=custom.filter(c=>c.id!==p.id);store.set('vp2_custom',custom);if(selId===p.id)selId=null;renderGrid();updateSel();};d.appendChild(x);}
+    d.onclick=()=>{selId=p.id;renderGrid();updateSel();
+      const r=person&&results[person.key+'|'+p.id]; if(r) showResult(r); else if(person) showPerson();
+      if(!person) toast("Avval suratga tushing yoki rasm yuklang 📷");
+      if(innerWidth<860&&person) $('stage').scrollIntoView({behavior:'smooth'});};
     g.appendChild(d);
   }
 }
-function renderWorn(){
-  const w=$('worn'); w.innerHTML='';
-  for(const cat of ['top','head','glasses']){
-    const p=allProducts().find(x=>x.id===worn[cat]); if(!p) continue;
-    const c=document.createElement('div');c.className='chip';
-    c.innerHTML=`<canvas></canvas><div><b></b><br><span style="color:var(--muted)">${fmt(p.price)}</span></div><button title="Yechish">✕</button>`;
-    c.querySelector('b').textContent=p.name;
-    drawThumb(c.querySelector('canvas'),p,colorOf(p));
-    c.querySelector('button').onclick=()=>{delete worn[cat];renderGrid();renderWorn();};
-    w.appendChild(c);
-  }
+function updateSel(){
+  const p=all().find(x=>x.id===selId);
+  $('selImg').src=p?p.img:''; $('selImg').style.visibility=p?'visible':'hidden';
+  $('selName').textContent=p?p.name+(p.price?' · '+fmt(p.price):''):'Kiyim tanlanmagan';
+  $('tryBtn').disabled=!p||!person||busy;
 }
-$('storeName').textContent=store.get('vp_store',"Mening do'konim");
-$('editStore').onclick=()=>{const n=prompt("Do'kon nomi:",$('storeName').textContent);if(n){$('storeName').textContent=n;store.set('vp_store',n);}};
 
-/* add product */
-const openAdd=()=>{$('addForm').reset();$('dlg').showModal();};
-$('addBtn').onclick=openAdd; $('addBtn2').onclick=openAdd;
-$('addForm').addEventListener('submit',e=>{
-  if(e.submitter && e.submitter.value!=='ok') return;
-  const f=$('fImg').files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{
-    const im=new Image(); im.onload=()=>{
-      const max=700, s=Math.min(1,max/Math.max(im.width,im.height));
-      const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
-      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-      const p={id:'c'+Date.now(),name:$('fName').value.trim()||'Mahsulot',price:+$('fPrice').value||0,cat:$('fCat').value,img:c.toDataURL('image/png')};
-      custom.push(p);
-      if(!store.set('vp_custom',custom)){custom.pop();alert("Xotira to'ldi — kichikroq rasm tanlang.");return;}
-      worn[p.cat]=p.id; curCat='all'; renderTabs(); renderGrid(); renderWorn();
-    }; im.src=r.result;
-  };
-  r.readAsDataURL(f);
-});
-
-/* ---------- pose / camera ---------- */
-const cv=$('cv'), ctx=cv.getContext('2d'), video=$('video');
-let landmarker=null, mode=null, photo=null, photoDirty=false, lastT=-1, sm=null, P=null;
-function setStatus(t,ok){$('status').hidden=false;$('statusTxt').textContent=t;$('dot').className='dot'+(ok?' ok':'');}
-async function loadModel(){
-  if(landmarker) return landmarker;
-  setStatus('AI model yuklanmoqda…');
-  const fs=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
-  const opts=d=>({baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',delegate:d},runningMode:'VIDEO',numPoses:1});
-  try{landmarker=await PoseLandmarker.createFromOptions(fs,opts('GPU'));}
-  catch{landmarker=await PoseLandmarker.createFromOptions(fs,opts('CPU'));}
-  setStatus('Tayyor — kiyim tanlang',true);
-  return landmarker;
+/* ---------- stage views ---------- */
+function view(v){ // intro | camera | person | result
+  $('intro').hidden=v!=='intro';
+  $('video').hidden=$('guide').hidden=v!=='camera';
+  $('camActions').hidden=v!=='camera';
+  $('personImg').hidden=v!=='person';
+  $('cmp').hidden=v!=='result';
+  $('actions').hidden=!(v==='person'||v==='result');
+  $('saveBtn').hidden=v!=='result';
+  $('stage').dataset.view=v;
 }
+function showPerson(){ $('personImg').src=person.url; view('person'); }
+function showResult(url){ $('beforeImg').src=person.url; $('afterImg').src=url; $('afterImg').dataset.url=url; setX(50); view('result'); }
+function setX(v){$('slider').value=v;$('cmp').style.setProperty('--x',v+'%');}
+$('slider').oninput=e=>setX(e.target.value);
+
+/* ---------- capture ---------- */
+const video=$('video');
+let stream=null;
 async function startCam(){
   try{
-    const s=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'},audio:false});
-    video.srcObject=s; await video.play();
-    mode='cam'; sm=null; P=null; $('stage').classList.remove('photo');
-    $('intro').hidden=true; $('tools').hidden=false;
-    loadModel().catch(e=>setStatus('Model yuklanmadi: '+e.message));
-  }catch(e){alert("Kameraga ruxsat berilmadi yoki kamera topilmadi. Rasm yuklash orqali sinab ko'ring.");}
+    stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1920},height:{ideal:1080},facingMode:'user'},audio:false});
+    video.srcObject=stream; await video.play(); view('camera');
+  }catch{toast("Kameraga ruxsat berilmadi yoki kamera topilmadi. Rasm yuklab ko'ring.");}
 }
-function stopCam(){const s=video.srcObject;if(s)s.getTracks().forEach(t=>t.stop());video.srcObject=null;}
-function pickPhoto(){$('photoInput').value='';$('photoInput').click();}
-$('photoInput').onchange=e=>{
-  const f=e.target.files[0]; if(!f) return;
-  const im=new Image(); im.onload=()=>{
-    stopCam(); photo=im; mode='photo'; photoDirty=true; sm=null; P=null;
-    $('stage').classList.add('photo'); $('intro').hidden=true; $('tools').hidden=false;
-    loadModel().catch(err=>setStatus('Model yuklanmadi: '+err.message));
-  }; im.src=URL.createObjectURL(f);
-};
-$('camBtn').onclick=startCam; $('camBtn2').onclick=startCam;
-$('photoBtn').onclick=pickPhoto; $('photoBtn2').onclick=pickPhoto;
-$('shotBtn').onclick=()=>{
-  $('flash').style.opacity=.8; setTimeout(()=>$('flash').style.opacity=0,120);
-  cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='primerka-'+Date.now()+'.png';a.click();},'image/png');
+function stopCam(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;}
+async function snap(){
+  $('snapBtn').disabled=true;
+  for(const n of [3,2,1]){$('count').hidden=false;$('count').textContent=n;await new Promise(r=>setTimeout(r,900));}
+  $('count').hidden=true;
+  const vw=video.videoWidth, vh=video.videoHeight;
+  // crop 3:4 portrait box matching the guide (88% of stage height, centered)
+  const st=$('stage').getBoundingClientRect();
+  const scale=Math.max(st.width/vw, st.height/vh); // object-fit: cover
+  const gh=st.height*0.88, gw=gh*3/4;
+  const sw=gw/scale, sh=gh/scale, sx=(vw-sw)/2, sy=(vh-sh)/2;
+  const c=document.createElement('canvas'); c.width=768; c.height=1024;
+  const x=c.getContext('2d'); x.translate(768,0); x.scale(-1,1);
+  x.drawImage(video,sx,sy,sw,sh,0,0,768,1024);
+  stopCam(); $('snapBtn').disabled=false;
+  c.toBlob(b=>setPerson(b),'image/jpeg',0.92);
+}
+async function setPerson(blob){
+  const im=await createImageBitmap(blob);
+  const s=Math.min(1,1024/Math.max(im.width,im.height));
+  const c=document.createElement('canvas'); c.width=Math.round(im.width*s); c.height=Math.round(im.height*s);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  const b=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+  if(person) URL.revokeObjectURL(person.url);
+  person={blob:b,url:URL.createObjectURL(b),key:'p'+Date.now()};
+  showPerson(); renderGrid(); updateSel();
+  if(!selId) toast("Endi o'ngdagi kolleksiyadan kiyim tanlang 👉");
+}
+$('camBtn').onclick=startCam;
+$('snapBtn').onclick=snap;
+$('camCancel').onclick=()=>{stopCam();person?showPerson():view('intro');};
+$('photoBtn').onclick=()=>{$('photoInput').value='';$('photoInput').click();};
+$('photoInput').onchange=e=>{const f=e.target.files[0]; if(f) setPerson(f);};
+$('retakeBtn').onclick=()=>view('intro');
+$('saveBtn').onclick=async()=>{
+  const u=$('afterImg').dataset.url; if(!u) return;
+  try{const b=await (await fetch(u)).blob();const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='primerka-'+Date.now()+'.png';a.click();}
+  catch{window.open(u,'_blank');}
 };
 
-const IDX={nose:0,leye:2,reye:5,lear:7,rear:8,ls:11,rs:12,le:13,re:14,lw:15,rw:16,lh:23,rh:24};
-function toPts(lm,w,h){
-  const o={};
-  for(const [k,i] of Object.entries(IDX)) o[k]={x:lm[i].x*w,y:lm[i].y*h};
-  o.hipsOk=(lm[23].visibility??1)>0.5&&(lm[24].visibility??1)>0.5&&lm[23].y<1.02&&lm[24].y<1.02;
-  return o;
+/* ---------- AI try-on ---------- */
+const clients={};
+async function client(space){
+  const tok=store.get('vp2_token','');
+  const key=space+'|'+tok;
+  if(!clients[key]) clients[key]=await Client.connect(space, tok?{hf_token:tok}:{});
+  return clients[key];
 }
-function loop(){
-  requestAnimationFrame(loop);
-  const src = mode==='cam'?video:mode==='photo'?photo:null;
-  if(!src) return;
-  const w=mode==='cam'?video.videoWidth:photo.naturalWidth, h=mode==='cam'?video.videoHeight:photo.naturalHeight;
-  if(!w||!h) return;
-  if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}
-  if(landmarker){
-    const fresh = mode==='photo'?photoDirty:video.currentTime!==lastT;
-    if(fresh){
-      lastT=video.currentTime; photoDirty=false;
-      const r=landmarker.detectForVideo(src,performance.now());
-      const lm=r.landmarks&&r.landmarks[0];
-      if(lm){
-        const n=toPts(lm,w,h);
-        if(sm&&mode==='cam'){for(const k in IDX){sm[k].x+= (n[k].x-sm[k].x)*0.55; sm[k].y+=(n[k].y-sm[k].y)*0.55;} sm.hipsOk=n.hipsOk;}
-        else sm=n;
-        P=sm;
-        setStatus(Object.keys(worn).length?'Kiyim ustingizda ✓':'Tayyor — kiyim tanlang',true);
-      } else { P=null; setStatus("Odam topilmadi — kameraga yelkangiz ko'rinsin"); }
+async function garmentBlob(p){ return await (await fetch(p.img)).blob(); }
+
+let progTimer=null;
+function loading(on,title,sub){
+  $('loading').hidden=!on; clearInterval(progTimer);
+  if(!on) return;
+  if(title) $('loadT').textContent=title;
+  if(sub) $('loadS').textContent=sub;
+  let pct=3; $('loadBar').style.width=pct+'%';
+  progTimer=setInterval(()=>{pct=Math.min(95,pct+(95-pct)*0.05);$('loadBar').style.width=pct+'%';},700);
+}
+async function run(space, endpoint, data, onStatus){
+  const c=await client(space);
+  const job=c.submit(endpoint,data);
+  for await (const m of job){
+    if(m.type==='status'){
+      if(m.stage==='error') throw new Error(m.message||'Xatolik');
+      onStatus&&onStatus(m);
     }
+    if(m.type==='data') return m.data;
   }
-  ctx.save();
-  if(mode==='cam'){ctx.translate(w,0);ctx.scale(-1,1);}
-  ctx.drawImage(src,0,0,w,h);
-  if(P) drawWorn(ctx,P);
-  ctx.restore();
+  throw new Error("Javob kelmadi");
 }
+const statusText=m=>m.queue&&m.position!=null&&m.position>0?`Navbatda: ${m.position+1}-o'rin. Biroz kuting…`:'AI kiyimni tanangizga moslab chizmoqda. Odatda 20–40 soniya.';
+async function tryOn(){
+  const p=all().find(x=>x.id===selId); if(!p||!person||busy) return;
+  busy=true; updateSel();
+  const shown=person; // in case user retakes meanwhile
+  loading(true,`"${p.name}" kiydirilmoqda…`,'Server bilan bog\'lanilmoqda…');
+  const onS=m=>$('loadS').textContent=statusText(m);
+  let url=null, lastErr=null;
+  try{
+    const g=await garmentBlob(p);
+    if(p.cat==='upper_body'){
+      try{
+        const d=await run('yisol/IDM-VTON','/tryon',[{background:shown.blob,layers:[],composite:null},g,p.desc||p.name,true,true,30,42],onS);
+        url=d[0].url;
+      }catch(e){lastErr=e; $('loadT').textContent='Zaxira model ishga tushirilmoqda…';}
+    }
+    if(!url){
+      const d=await run('franciszzj/Leffa','/leffa_predict_vt',[shown.blob,g,false,30,2.5,42,p.cat==='dresses'?'dress_code':'viton_hd',p.cat,false],onS);
+      url=d[0].url;
+    }
+  }catch(e){lastErr=e;}
+  loading(false); busy=false; updateSel();
+  if(url){
+    results[shown.key+'|'+p.id]=url;
+    if(person===shown&&selId===p.id) showResult(url);
+    renderGrid();
+  } else {
+    const msg=String(lastErr&&lastErr.message||lastErr||'');
+    if(/quota|exceeded|GPU/i.test(msg)) toast("Bepul AI limiti tugadi. Bir oz kutib qayta urining yoki ⚙ Sozlamalar'ga Hugging Face token qo'shing.",8000);
+    else toast("Kiydirib bo'lmadi: "+(msg.slice(0,140)||'server javob bermadi')+". Qayta urinib ko'ring.",8000);
+  }
+}
+$('tryBtn').onclick=tryOn;
 
-renderTabs(); renderGrid(); renderWorn(); loop();
+/* ---------- admin ---------- */
+$('storeName').textContent=store.get('vp_store',"Mening do'konim");
+$('editStore').onclick=()=>{const n=prompt("Do'kon nomi:",$('storeName').textContent);if(n){$('storeName').textContent=n;store.set('vp_store',n);}};
+const openAdd=()=>{$('addForm').reset();$('dlg').showModal();};
+$('addBtn').onclick=openAdd;$('addBtn2').onclick=openAdd;
+$('addForm').addEventListener('submit',async e=>{
+  if(e.submitter&&e.submitter.value!=='ok') return;
+  const f=$('fImg').files[0]; if(!f) return;
+  const im=await createImageBitmap(f);
+  const s=Math.min(1,768/Math.max(im.width,im.height));
+  const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+  const p={id:'c'+Date.now(),custom:true,name:$('fName').value.trim()||'Mahsulot',price:+$('fPrice').value||0,cat:$('fCat').value,desc:$('fDesc').value.trim(),img:c.toDataURL('image/jpeg',0.85)};
+  custom.unshift(p);
+  if(!store.set('vp2_custom',custom)){custom.shift();toast("Xotira to'ldi — eski mahsulotlarni o'chiring.");return;}
+  selId=p.id;curCat='all';renderTabs();renderGrid();updateSel();toast("Mahsulot qo'shildi ✓");
+});
+$('setBtn').onclick=()=>{$('sToken').value=store.get('vp2_token','');$('setDlg').showModal();};
+$('setForm').addEventListener('submit',e=>{
+  if(e.submitter&&e.submitter.value!=='ok') return;
+  const t=$('sToken').value.trim();
+  if(t&&!t.startsWith('hf_')){toast("Token \"hf_\" bilan boshlanishi kerak");return;}
+  store.set('vp2_token',t);toast(t?'Token saqlandi ✓':'Token o\'chirildi');
+});
+
+renderTabs();renderGrid();updateSel();view('intro');
 </script>
 </body>
 </html>
